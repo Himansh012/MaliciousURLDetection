@@ -1,1 +1,1 @@
-DATASET = "/home/himansh/Desktop/coding/Projects/SentinalLabs/malicious_phish.csv"
+RAW_DATASET = "/home/himansh/Desktop/coding/Projects/SentinalLabs/dataset/malicious_phish.csv"
