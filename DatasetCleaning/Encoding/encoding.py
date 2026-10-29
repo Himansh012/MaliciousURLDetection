@@ -14,8 +14,8 @@ class Encoding:
         X = data.drop(columns=["type"])
         y = data["type"]
 
-        categorical_features = ['hosttype','scheme','port','Shortening Service']
-        numerical_features = ['url_length','Subdomains','paths','Quries','Number of Hyphens']
+        categorical_features = ['hosttype','scheme','port','SSLVerification','Shortening Service']
+        numerical_features = ['url_length','Subdomains','paths','Quries','Number of Hyphens in Domain','Total Hyphen Count']
 
         preprocessor = ColumnTransformer(
             transformers=[
