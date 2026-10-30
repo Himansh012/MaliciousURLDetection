@@ -1,7 +1,6 @@
 lazy import pandas as pd
 lazy from sklearn.preprocessing import OneHotEncoder, StandardScaler
 lazy from sklearn.compose import ColumnTransformer
-lazy from sklearn.model_selection import train_test_split
 
 class Encoding:
     def __init__(self):
@@ -14,8 +13,8 @@ class Encoding:
         X = data.drop(columns=["type"])
         y = data["type"]
 
-        categorical_features = ['hosttype','scheme','port','SSLVerification','Shortening Service']
-        numerical_features = ['url_length','Subdomains','paths','Quries','Number of Hyphens in Domain','Total Hyphen Count']
+        categorical_features = ['hosttype','scheme','port','Shortening Service']
+        numerical_features = ['url_length','Subdomains','paths','Queries','Number of Hyphens in Domain','Total Hyphen Count']
 
         preprocessor = ColumnTransformer(
             transformers=[

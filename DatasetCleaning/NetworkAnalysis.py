@@ -1,12 +1,8 @@
 lazy from urllib.parse import urlparse, parse_qs
 lazy import pandas as pd
 lazy import tldextract
-lazy import re
 lazy import ipaddress
 
-lazy import requests
-lazy import socket 
-lazy import ssl
 
 class PassiveAnalysis:
     def __init__(self):
@@ -35,34 +31,6 @@ class PassiveAnalysis:
                 return service
         return 'none'
 
-class ActiveAnalysis(PassiveAnalysis):
-
-    def __init__(self):
-        pass 
-
-    @staticmethod
-    def SSLstate(url):
-        tld = tldextract.extract(url)
-        hostname = tld.fqdn
-        if hostname:
-            context = ssl.create_default_context()
-            try:
-                net_port = PassiveAnalysis.get_port(url)
-                print(f"Creating socket connection to {url}...")
-                with socket.create_connection((hostname,int(net_port) if net_port != "Unknown" else 80), timeout=1) as sock:
-                        print("Success")
-                        with context.wrap_socket(sock, server_hostname=hostname) as ssock: 
-                            return "Verified"
-            
-            except ssl.SSLCertVerificationError:
-                return "Self Signed" 
-            
-            except Exception:
-                return "Failed"
-
-        return "Failed"
-
-
 
 def extract_url_features(url: str):
     parsed = urlparse(url)
@@ -71,7 +39,6 @@ def extract_url_features(url: str):
     hosttype = PassiveAnalysis.check_host_type(tld.domain)
     scheme = "Unknown" if not parsed.scheme else parsed.scheme
     port = PassiveAnalysis.get_port(url)
-    SSLVerification = ActiveAnalysis.SSLstate(url)
     url_length = len(url)
     Subdomains = tld.subdomain.count('.')
     paths = parsed.path.count("/")
@@ -86,7 +53,6 @@ def extract_url_features(url: str):
     return pd.Series({
         "hosttype":hosttype, "scheme":scheme,
         "port":port, "url_length":url_length,
-        "SSL Verification": SSLVerification,
         "Subdomains":Subdomains, "paths":paths,
         "Queries":Quries, "fragments":fragment,
         "Have At symbol": have_At_symbol,
